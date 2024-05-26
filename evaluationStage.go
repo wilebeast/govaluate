@@ -22,24 +22,25 @@ type stageTypeCheck func(value interface{}) bool
 type stageCombinedTypeCheck func(left interface{}, right interface{}) bool
 
 type evaluationStage struct {
-	symbol OperatorSymbol
+	symbol OperatorSymbol `json:"symbol,omitempty"`
 
-	leftStage, rightStage *evaluationStage
+	leftStage  *evaluationStage `json:"left_stage"`
+	rightStage *evaluationStage `json:"right_stage"`
 
 	// the operation that will be used to evaluate this stage (such as adding [left] to [right] and return the result)
-	operator evaluationOperator
+	operator evaluationOperator `json:"operator,omitempty"`
 
 	// ensures that both left and right values are appropriate for this stage. Returns an error if they aren't operable.
-	leftTypeCheck  stageTypeCheck
-	rightTypeCheck stageTypeCheck
+	leftTypeCheck  stageTypeCheck `json:"left_type_check,omitempty"`
+	rightTypeCheck stageTypeCheck `json:"right_type_check,omitempty"`
 
 	// if specified, will override whatever is used in "leftTypeCheck" and "rightTypeCheck".
 	// primarily used for specific operators that don't care which side a given type is on, but still requires one side to be of a given type
 	// (like string concat)
-	typeCheck stageCombinedTypeCheck
+	typeCheck stageCombinedTypeCheck `json:"type_check,omitempty"`
 
 	// regardless of which type check is used, this string format will be used as the error message for type errors
-	typeErrorFormat string
+	typeErrorFormat string `json:"type_error_format,omitempty"`
 }
 
 var (
@@ -467,8 +468,8 @@ func isFloat64(value interface{}) bool {
 }
 
 /*
-	Addition usually means between numbers, but can also mean string concat.
-	String concat needs one (or both) of the sides to be a string.
+Addition usually means between numbers, but can also mean string concat.
+String concat needs one (or both) of the sides to be a string.
 */
 func additionTypeCheck(left interface{}, right interface{}) bool {
 
@@ -482,8 +483,8 @@ func additionTypeCheck(left interface{}, right interface{}) bool {
 }
 
 /*
-	Comparison can either be between numbers, or lexicographic between two strings,
-	but never between the two.
+Comparison can either be between numbers, or lexicographic between two strings,
+but never between the two.
 */
 func comparatorTypeCheck(left interface{}, right interface{}) bool {
 
@@ -505,8 +506,8 @@ func isArray(value interface{}) bool {
 }
 
 /*
-	Converting a boolean to an interface{} requires an allocation.
-	We can use interned bools to avoid this cost.
+Converting a boolean to an interface{} requires an allocation.
+We can use interned bools to avoid this cost.
 */
 func boolIface(b bool) interface{} {
 	if b {

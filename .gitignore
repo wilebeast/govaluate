@@ -26,3 +26,9 @@ coverage.out
 manual_test.go
 *.out
 *.err
+/.idea/govaluate.iml
+/.idea/vcs.xml
+/.idea/modules.xml
+/.idea/GitLink.xml
+/ellen.sh
+/instrument
