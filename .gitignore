@@ -32,3 +32,4 @@ manual_test.go
 /.idea/GitLink.xml
 /ellen.sh
 /instrument
+/.idea/.gitignore
