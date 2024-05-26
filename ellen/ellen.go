@@ -19,5 +19,5 @@ func Printf(name string, args map[string]interface{}, result map[string]interfac
 	argsBytes, _ := json.Marshal(args)
 	resultBytes, _ := json.Marshal(result)
 
-	fmt.Printf("Calling %s from %s at %s:%d, arguments:%s\n, returns:%s", calleeFunName, callerFunName, callerFile, callerLine, string(argsBytes), string(resultBytes))
+	fmt.Printf("Calling %s from %s at %s:%d, arguments:%s\n, returns:%s\n\r", calleeFunName, callerFunName, callerFile, callerLine, string(argsBytes), string(resultBytes))
 }
